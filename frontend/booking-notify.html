@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>แจ้งเตือนการจอง | Tong Eiw Café</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link rel="stylesheet" href="/css/manage.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap;">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans Thai', sans-serif;
+      background: url('/img/band.jpg') center/cover no-repeat;
+      color: #fff;
+    }
+    .navbar {
+      background: #fff;
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 30px;
+    }
+    .navbar .logo { width: 70px; }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #111;
+      font-weight: 600;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 80px 20px;
+    }
+    .notify-box {
+      background: #fff;
+      color: #111;
+      border-radius: 20px;
+      width: min(700px, 90vw);
+      padding: 30px 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 2;
+    }
+    .notify-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 20px;
+      background: #124d2d;
+      color: #fff;
+      border-radius: 20px;
+      padding: 6px 20px;
+      display: inline-block;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .notify-list {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .notify-item {
+      background: #f3f3f3;
+      border-radius: 15px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .notify-item .info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 16px;
+      color: #333;
+    }
+    .notify-item button {
+      border: none;
+      border-radius: 12px;
+      padding: 6px 14px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .cancel-btn { background: #971212; }
+    .status-btn { background: #124d2d; }
+
+    /* ✅ Popup */
+    .popup {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.65);
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.25s ease;
+      z-index: 9998;
+    }
+    .popup.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .popup-box {
+      background: #fff;
+      color: #111;
+      border-radius: 20px;
+      padding: 30px 40px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      z-index: 9999;
+    }
+    .popup-box h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .popup-box button {
+      background: #124d2d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <img src="/img/logo.png" alt="logo" class="logo">
+    <ul>
+      <li><a href="/login.html">เข้าสู่ระบบ</a></li>
+      <li><a href="/main.html">หน้าหลัก</a></li>
+      <li><a href="/booking-notify.html">แจ้งเตือน</a></li>
+      <li><a href="#">ติดต่อเรา</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="notify-box">
+      <div class="notify-title">แจ้งเตือนการจอง</div>
+      <div class="notify-list" id="notifyList">
+        <p style="color:#666;text-align:center;">กำลังโหลดข้อมูล...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div class="popup" id="popup">
+    <div class="popup-box">
+      <h3 id="popupMsg">...</h3>
+      <button onclick="closePopup()">ตกลง</button>
+    </div>
+  </div>
+
+  <script defer src="/js/api.js"></script>
+
+<script>
+  async function loadBooking() {
+    const listEl = document.getElementById('notifyList');
+    try {
+      const p  = new URLSearchParams(location.search);
+      const id = p.get('id') || localStorage.getItem('lastReservationId');
+      if (!id) throw new Error('ไม่พบหมายเลขการจอง');
+
+      listEl.innerHTML = `<p style="color:#666;text-align:center;">กำลังโหลดข้อมูล…</p>`;
+
+      // ถ้าใช้ทางเลือก A:
+      // const r = await (await fetch(`/api/reservations/${encodeURIComponent(id)}/card`)).json();
+
+      // ถ้าใช้ทางเลือก B (แทน /:id เดิม):
+      const r = await (await fetch(`/api/reservations/${encodeURIComponent(id)}`)).json();
+
+      listEl.innerHTML = `
+        <div class="notify-item" style="flex-direction:column;align-items:flex-start;gap:6px">
+          <div class="info">
+            <div><b>หมายเลข:</b> ${r.code ?? '-'}</div>
+            <div><b>โต๊ะ:</b> ${r.table_name ?? '-'}</div>
+            <div><b>วันที่:</b> ${r.date?.split('T')[0] ?? '-'}</div>
+            <div><b>ชื่อ:</b> ${r.name ?? '-'}</div>
+            <div><b>อีเมล:</b> ${r.email ?? '-'}</div>
+            <div><b>เบอร์:</b> ${r.phone ?? '-'}</div>
+            <div><b>สถานะ:</b> ${r.status_th ?? '-'}</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px;align-self:center">
+            <a class="status-btn" style="text-decoration:none;padding:8px 16px;border-radius:10px;color:#fff" href="/notifications.html">ไปหน้าแจ้งเตือน</a>
+            <a class="cancel-btn" style="text-decoration:none;padding:8px 16px;border-radius:10px;background:#ddd;color:#333" href="/reservation-detail.html?id=${encodeURIComponent(id)}">รายละเอียด</a>
+          </div>
+        </div>
+      `;
+    } catch (err) {
+      console.error(err);
+      listEl.innerHTML = `<div class="notify-item" style="background:#ffecec;border:1px solid #f5b5b5;color:#a31212">โหลดข้อมูลไม่สำเร็จ: ${err.message}</div>`;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', loadBooking);
+</script>
+
+</body>
+</html>

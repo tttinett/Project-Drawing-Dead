@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+  width: 80px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+/* พื้นหลัง */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 91vh;
+}
+
+.bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+}
+
+/* ป้าย "เลือกวันที่" */
+.select-title {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #125c2a;
+  color: white;
+  padding: 10px 40px;
+  border-radius: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* กล่องปฏิทิน */
+.calendar-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 15px;
+  padding: 25px 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* ส่วนซ้าย – ชื่อเดือน */
+.left-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ส่วนขวา – ปุ่มเลื่อนเดือน */
+.right-header {
+  display: flex;
+  gap: 10px;
+}
+
+.right-header button {
+  background: #fff;
+  color: #000;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.right-header button:hover {
+  background: #CECECE;
+}
+
+
+/* ตาราง */
+.calendar {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.calendar th, .calendar td {
+  width: 14.28%;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.calendar td.active {
+  background-color: #125c2a;
+  color: white;
+  border-radius: 5px;
+}
+
+/* ปุ่มตกลง */
+.btn-confirm {
+  position: absolute;
+  right: 50px;
+  bottom: 40px;
+  background-color: #aa0b0b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 10px 40px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.btn-confirm:hover {
+  background-color: #900;
+}

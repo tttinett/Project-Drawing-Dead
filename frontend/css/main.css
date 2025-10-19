@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+  width: 80px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.contianer {
+  display: flex;
+  width: 100%;
+  padding: 0px 80px;
+  padding-bottom: 80px;
+  
+
+}
+
+.hero {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      background-image: url('/img/band.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start; 
+      padding-left: 100px;
+    
+    }
+
+    .hero-text {
+      color: white;
+    }
+
+    .hero-text h1 {
+      font-size: 100px;
+
+    }
+
+    .hero-text h1 span {
+      color: #32CD32;
+    }
+
+    .hero-text button {
+      margin-top: 20px;
+      padding: 10px 65px;
+      font-size: 40px;
+      border: none;
+      background-color: #124d2d;
+      color: white;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .hero-text button:hover {
+      background-color: #0b3a22;
+    }
+
+    .hero2-text {
+      color: white;
+    }
+
+    .hero2-text h1 {
+      font-size: 20px;
+      
+    }
+
+    .hero2-text h1 span {
+      color: #32CD32;
+    }
+
+    .hero2-text button {
+      margin-top: 20px;
+      padding: 13px 20px;
+      padding-left: 30px;
+      font-size: 24px;
+      border: none;
+      background-color: #971212;
+      color: white; 
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    .hero2-text button:hover {
+      background-color: #0b3a22;
+    }
+
+     .con {
+      display: flex;
+      margin: 0;
+      height: 20vh;
+      font-family: sans-serif;
+      background: #0d3b1f; 
+    }
+
+
+    .contact-box {
+      background-color: #fff6f6;
+      border-radius: 12px;
+      margin: 20px;
+      padding: 20px;
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+    }
+
+    .contact-item img {
+      width: 40px;
+      height:30px;
+      border-radius: 50%;
+    }
+
+
+    .contact-item2 {
+      display: flex;
+      align-items: center;
+      gap: px;
+      font-size: 16px;
+      padding-left: 75px;
+    }
+
+    .contact-item2 img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .contact-item3 {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      padding-left: 85px;
+    }
+
+    
+    .logo {
+      width: 100px;
+      height: auto;
+    }

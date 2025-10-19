@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+:root{
+      --brand-red:#a51212;
+      --glass-bg: rgba(255,255,255,.78);
+      --glass-brd: rgba(255,255,255,.55);
+    }
+
+
+    /* พื้นหลังเป็นภาพที่ให้มา */
+    body{
+      background: 
+        linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.55)),
+        url('/img/band.jpg') center / cover no-repeat fixed;
+         overflow-x: hidden;
+    }
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+
+ 
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+  width: 80px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.navbar ul li a {
+
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+    main{padding:5vh 0}
+    .glass-card{background:#fff;border-radius:1.25rem;box-shadow:0 12px 40px rgba(0,0,0,.1);max-width:980px;margin:auto;padding:2rem}
+    .section-head{width:100%;text-align:center;background:#184b1b;color:#fff;border-radius:12px;padding:.6rem;font-weight:700;margin-bottom:1.25rem;}
+    .notif-item{background:#fff;border:1px solid #e7e7e7;border-radius:.875rem;padding:1rem;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .notif-left{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;flex:1}
+    .notif-icon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#fff3cd;color:#b54708;border:1px solid rgba(0,0,0,.06)}
+    .btn-approve{background:var(--green);border-color:var(--green);color:#fff;font-weight:600;border-radius:999px;padding:.45rem 1rem}
+    .btn-approve:hover{background:var(--green-dark);border-color:var(--green-dark)}
+    .btn-cancel{background:var(--red);border-color:var(--red);color:#fff;font-weight:600;border-radius:999px;padding:.45rem 1rem}
+    .btn-cancel:hover{background:var(--red-dark);border-color:var(--red-dark)}

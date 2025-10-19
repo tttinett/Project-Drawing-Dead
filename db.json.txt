@@ -1,0 +1,22 @@
+{
+  "reservations": [
+    {
+      "id": "RSV001",
+      "table": "1",
+      "name": "ไอเติ้ล",
+      "phone": "0999999999",
+      "date": "18/04/2023",
+      "email": "12345@gmail.com",
+      "status": "pending"
+    },
+    {
+      "id": "RSV002",
+      "table": "2",
+      "name": "ออมสิน",
+      "phone": "0812345678",
+      "date": "05/05/2024",
+      "email": "aomsin@example.com",
+      "status": "pending"
+    }
+  ]
+}

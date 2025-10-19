@@ -1,0 +1,87 @@
+/* อย่ามี @import อยู่ด้านล่างอีกแล้วนะ */
+
+:root{
+  --brand-red:#a51212;
+  --glass-bg: rgba(255,255,255,.78);
+  --glass-brd: rgba(255,255,255,.55);
+}
+
+/* กำหนดฟอนต์ชัด ๆ ตรงนี้ */
+html, body {
+  font-family: 'Noto Sans Thai', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* ถ้าต้องการให้ทุก element ใช้ตาม body ก็ไม่ต้องใส่ font-family ใน * อีก */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* พื้นหลัง */
+body{
+  background:
+    linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    url('/img/band.jpg') center / cover no-repeat fixed;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.navbar .logo { width: 80px; }
+.navbar ul { list-style: none; display: flex; gap: 25px; }
+.navbar ul li a { text-decoration: none; color: black; font-weight: 600; }
+
+/* การ์ดแก้ว */
+.glass-card{
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 35px rgba(0,0,0,.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ปุ่ม */
+.btn-brand{
+  background-color: var(--brand-red);
+  border-color: var(--brand-red);
+}
+.btn-brand:hover, .btn-brand:focus{
+  background-color:#8f0f0f;
+  border-color:#8f0f0f;
+}
+
+/* ฟอร์ม */
+.form-control{ border-radius: .75rem; }
+.form-control:focus{
+  border-color:#7c4dff;
+  box-shadow: 0 0 0 .25rem rgba(124,77,255,.2);
+}
+
+/* ระยะ */
+main{
+  padding-top: min(7vh, 48px);
+  padding-bottom: min(7vh, 48px);
+}
+
+/* label ไทย */
+.thai-label{ font-weight:600; min-width: 3.5rem; }
+
+/* wrapper */
+.search-wrap{
+  max-width: 980px;
+  height: 80vh;
+}
+
+/* ลิงก์เมนู */
+.nav-link{ font-weight:600; }
+.nav-link.active{ color:#000 !important; }

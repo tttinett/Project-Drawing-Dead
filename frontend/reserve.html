@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>หน้าจองโต๊ะ | Tasty Bar</title>
+  <link rel="icon" type="image/png" href="/img/logo.png">
+  <link rel="stylesheet" href="/css/reserve.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <img src="/img/logo.png" alt="logo" class="logo">
+    <ul>
+      <li><a href="/login.html">เข้าสู่ระบบ</a></li>
+      <li><a href="/main.html">หน้าหลัก</a></li>
+      <li><a href="/notifications.html">แจ้งเตือน</a></li>
+      <li><a href="/contact.html">ติดต่อเรา</a></li>
+    </ul>
+  </div>
+
+  <!-- Content -->
+  <div class="background">
+    <div class="colum">
+      <div class="img">
+        <img src="/img/table.png" alt="ผังโต๊ะ">
+      </div>
+
+      <div class="reserve-box">
+        <div class="reserve-title">เลือกโต๊ะ</div>
+
+        <select id="tableSelect">
+          <option value="">-- กรุณาเลือกโต๊ะ --</option>
+          <option value="1">โต๊ะ 1</option>
+          <option value="2">โต๊ะ 2</option>
+          <option value="3">โต๊ะ 3</option>
+          <option value="4">โต๊ะ 4</option>
+          <option value="3">โต๊ะ 5</option>
+          <option value="4">โต๊ะ 6</option>
+          <option value="3">โต๊ะ 7</option>
+          <option value="4">โต๊ะ 8</option>
+
+        </select>
+
+        <button id="confirmBtn">ตกลง</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 📍 อ่านค่าจาก URL เช่น ?table=1&status=busy
+    function getQueryParams() {
+      const p = new URLSearchParams(location.search);
+      return {
+        table: p.get('table') || '',
+        status: p.get('status') || ''
+      };
+    }
+
+    // 📍 โหลดสถานะโต๊ะทั้งหมดจาก localStorage
+    function loadReservedTables() {
+      try {
+        return JSON.parse(localStorage.getItem('reservedTables')) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    // 📍 บันทึกโต๊ะที่ไม่ว่าง
+    function saveReservedTable(tableId) {
+      const reserved = loadReservedTables();
+      if (!reserved.includes(tableId)) {
+        reserved.push(tableId);
+        localStorage.setItem('reservedTables', JSON.stringify(reserved));
+      }
+    }
+
+    // 📍 แสดงสถานะโต๊ะตอนเปิดหน้า
+    function updateTableStatus() {
+      const { table, status } = getQueryParams();
+      const select = document.getElementById('tableSelect');
+      const reserved = loadReservedTables();
+
+      // ปิดโต๊ะที่จองไปแล้วทั้งหมด
+      reserved.forEach(tid => {
+        const opt = select.querySelector(`option[value="${tid}"]`);
+        if (opt) {
+          opt.disabled = true;
+          opt.textContent = `โต๊ะ ${tid} (ไม่ว่าง)`;
+        }
+      });
+
+      // ถ้ามาจากหน้า status-update
+      if (table) {
+        const opt = select.querySelector(`option[value="${table}"]`);
+        if (opt) {
+          if (status === 'busy') {
+            opt.disabled = true;
+            opt.textContent = `โต๊ะ ${table} (ไม่ว่าง)`;
+            alert(`โต๊ะ ${table} ไม่ว่าง กรุณาเลือกโต๊ะอื่น`);
+          } else {
+            select.value = table;
+          }
+        }
+      }
+    }
+
+    // 📍 เมื่อกดปุ่ม "ตกลง"
+    function setupConfirmButton() {
+      const select = document.getElementById('tableSelect');
+      document.getElementById('confirmBtn').addEventListener('click', () => {
+        const table = select.value;
+        if (!table) {
+          alert('กรุณาเลือกโต๊ะก่อน');
+          return;
+        }
+
+        // บันทึกโต๊ะนี้ให้เป็น “ไม่ว่าง”
+        saveReservedTable(table);
+
+        // เก็บโต๊ะนี้ไว้ใช้ต่อ
+        localStorage.setItem('reservationTable', table);
+
+        // ✅ ไปหน้า data.html
+        window.location.href = '/data.html';
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateTableStatus();
+      setupConfirmButton();
+    });
+  </script>
+</body>
+</html>

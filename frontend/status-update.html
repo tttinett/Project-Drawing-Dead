@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>อัปเดตสถานะโต๊ะ</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap">
+  <link rel="icon" type="image/png" href="/img/logo.png" />
+  <link rel="stylesheet" href="/css/status-update.css">
+</head>
+<body>
+  <div class="navbar">
+    <img src="/img/logo.png" alt="logo" class="logo">
+    <ul>
+      <li><a href="/login.html">เข้าสู่ระบบ</a></li>
+      <li><a href="/main.html">หน้าหลัก</a></li>
+      <li><a href="/notifications.html">แจ้งเตือน</a></li>
+      <li><a href="/contact.html">ติดต่อเรา</a></li>
+    </ul>
+  </div>
+  <div class="bg"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <h2 class="card-title">อัปเดตสถานะโต๊ะ</h2>
+
+      <div class="grid">
+        <!-- LEFT: โต๊ะที่ -->
+        <div class="col-left">
+          <div class="col-header">โต๊ะที่</div>
+          <hr class="col-sep">
+          <div class="row">โต๊ะ 1</div>
+          <div class="row">โต๊ะ 2</div>
+          <div class="row">โต๊ะ 3</div>
+          <div class="row">โต๊ะ 4</div>
+        </div>
+
+        <!-- DIVIDER -->
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- RIGHT: สถานะ -->
+        <div class="col-right">
+          <div class="col-header center">สถานะ</div>
+          <hr class="col-sep">
+
+          <!-- กำหนด data-table ให้รู้ว่าแถวนี้คุมโต๊ะไหน -->
+          <div class="row right" data-table="1">
+            <div class="btn-group">
+              <button class="btn btn-free" data-state="free">ว่าง</button>
+              <button class="btn btn-busy" data-state="busy">ไม่ว่าง</button>
+            </div>
+          </div>
+
+          <div class="row right" data-table="2">
+            <div class="btn-group">
+              <button class="btn btn-free" data-state="free">ว่าง</button>
+              <button class="btn btn-busy" data-state="busy">ไม่ว่าง</button>
+            </div>
+          </div>
+
+          <div class="row right" data-table="3">
+            <div class="btn-group">
+              <button class="btn btn-free" data-state="free">ว่าง</button>
+              <button class="btn btn-busy" data-state="busy">ไม่ว่าง</button>
+            </div>
+          </div>
+
+          <div class="row right" data-table="4">
+            <div class="btn-group">
+              <button class="btn btn-free" data-state="free">ว่าง</button>
+              <button class="btn btn-busy" data-state="busy">ไม่ว่าง</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="/js/api.js"></script>
+<script>
+    // ✅ 1. เพิ่มโค้ดตรวจสอบสิทธิ์ (Auth Check) ก่อน
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = JSON.parse(localStorage.getItem("authUser") || "null");
+      if (!user || user.shopName !== "TongEiw") {
+        alert("เฉพาะเจ้าของร้านเท่านั้นที่สามารถเข้าหน้านี้ได้");
+        window.location.href = "/login.html"; 
+      }
+    });
+
+    // 2. โค้ด Logic อัปเดตสถานะโต๊ะ (ใช้ LocalStorage)
+    const rightRows = document.querySelectorAll('.col-right .row.right');
+    rightRows.forEach((row, i) => row.dataset.table = String(i + 1));
+
+    function loadReserved() {
+      try { return JSON.parse(localStorage.getItem('reservedTables')) || []; }
+      catch { return []; }
+    }
+    function saveReserved(next) {
+      localStorage.setItem('reservedTables', JSON.stringify(next));
+    }
+
+    // อัปเดตสถานะใน localStorage
+    async function setTableState(tableId, state) {
+      let list = loadReserved().map(String);
+      if (state === 'busy') {
+        if (!list.includes(tableId)) list.push(tableId);
+      } else { // free
+        list = list.filter(t => t !== tableId);
+      }
+      saveReserved(list);
+
+      // (ทางเลือก: ถ้ามีการเพิ่ม API Endpoint สำหรับ Table Status
+      //  สามารถเรียก API ที่นี่ได้)
+    }
+
+    // ไฮไลต์ปุ่มตามสถานะใน localStorage
+    function applyUIFromStorage() {
+      const busy = loadReserved().map(String);
+      rightRows.forEach(row => {
+        const tableId = row.dataset.table;
+        // ลบ is-on ออกจากทุกปุ่ม
+        row.querySelectorAll('.btn').forEach(b => b.classList.remove('is-on'));
+        
+        // กำหนด is-on ให้ปุ่มที่ควรเลือก
+        const target = row.querySelector(busy.includes(tableId) ? '.btn-busy' : '.btn-free');
+        if (target) target.classList.add('is-on');
+      });
+    }
+
+    // 3. คลิกปุ่มว่าง/ไม่ว่าง
+    rightRows.forEach(row => {
+      row.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.btn');
+        if (!btn) return;
+        
+        const tableId = row.dataset.table;
+        const state = btn.dataset.state; // 'free' | 'busy'
+        
+        // บันทึกสถานะ
+        await setTableState(tableId, state);
+
+        // อัปเดต UI แถวนี้
+        row.querySelectorAll('.btn').forEach(b => b.classList.remove('is-on'));
+        btn.classList.add('is-on');
+        
+        // ✅ แจ้งเตือนการอัปเดต
+        alert(`อัปเดตสถานะโต๊ะ ${tableId} เป็น "${state === 'busy' ? 'ไม่ว่าง' : 'ว่าง'}" สำเร็จ!`);
+      });
+    });
+
+    // เปิดหน้านี้ครั้งแรก → sync UI ให้ตรงกับ storage
+    applyUIFromStorage();
+
+    // ถ้ามีการแก้ไข reservedTables จากหน้าอื่น (เช่น reserve.html)
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'reservedTables') applyUIFromStorage();
+    });
+</script>
+</body>
+</html>

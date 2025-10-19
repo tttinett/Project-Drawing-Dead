@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+body {
+  background-color: #fff;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+  width: 80px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+
+    
+.container{
+    max-width:420px;
+    margin:40px auto;
+    padding:20px
+}
+
+.card{
+    width: 500px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+    padding:30px;
+    text-align:center
+}
+
+.card h2{
+    font-size:18px;
+    margin-bottom:20px;
+    background:#0f5132;
+    color:#fff;
+    padding:10px;
+    border-radius:25px;
+    display:inline-block
+}
+
+.avatar img {
+    width: 100px;
+    margin-bottom: 1rem;
+}
+
+
+.form-group{
+    margin-bottom:18px;
+    text-align:left
+}
+
+.form-group input{
+    display: block;
+    width:63%;
+    padding:14px;
+    margin-left: 5rem;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px
+}
+
+.form-group input:focus{
+    outline:none;
+    border-color:#0f5132;
+    box-shadow:0 0 0 2px rgba(15,81,50,0.2)
+}
+
+.password-box{
+    position:relative
+}
+
+.password-box input{
+    padding-right:40px
+}
+
+.toggle-eye{
+    position:absolute;
+    right:100px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:18px;
+    color:#555
+}
+
+.btn{
+    display:inline-block;
+    width:40%;
+    padding:14px;
+    background:#0f5132;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px
+}
+
+.btn:hover{
+    background:#0c3c25
+}

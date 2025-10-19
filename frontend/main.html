@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>หน้าหลัก</title>
+  <link rel="icon" type="image/png" href="/img/logo.png" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <style>
+    /* เพิ่มปุ่มลิงก์ให้สไตล์เหมือนปุ่มเดิม */
+    .btn {
+      display:inline-block;
+      margin-top:20px;
+      padding:10px 65px;
+      font-size:40px;
+      border:none;
+      background-color:#124d2d;
+      color:white;
+      border-radius:30px;
+      text-decoration:none;
+      cursor:pointer;
+      z-index:10;
+      position:relative;
+    }
+    .btn:hover {
+      background-color:#0b3a22;
+    }
+    .btn-secondary {
+      background-color:#971212;
+      font-size:24px;
+      padding:13px 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <img src="/img/logo.png" alt="logo" class="logo" />
+    <ul>
+      <li><a href="/login.html">เข้าสู่ระบบ</a></li>
+      <li><a href="/main.html">หน้าหลัก</a></li>
+      <li><a href="/notifications.html">แจ้งเตือน</a></li>
+      <li><a href="/contact.html">ติดต่อเรา</a></li>
+    </ul>
+  </div>
+
+  <div class="container"><!-- แก้ชื่อให้ตรงกับ CSS -->
+    <div class="hero">
+      <div class="hero-text">
+        <h1>ตอง<span>เอี่ยว</span></h1>
+
+        <!-- ไปหน้า reserve -->
+        <a href="/date.html" class="btn">จอง</a>
+
+        <div class="hero2">
+          <div class="hero2-text">
+            <!-- ไปหน้า results -->
+            <a href="manage.html" class="btn btn-secondary">ประวัติการจอง</a>
+            
+          </div>
+          <a href="status-update.html" class="btn btn-secondary">อัปเดตสถานะโต๊ะ</a>
+      </div>  
+        </div>
+      </div>
+    </div>
+
+  <div class="con">
+    <div class="contact-box">
+      <div class="contact-info">
+        <div class="contact-item">
+          <h3>ติดต่อเรา</h3>
+          <img src="/img/facebook.png" alt="Facebook" />
+          <span>ตองเอี่ยว</span>
+        </div>
+        <div class="contact-item2">
+          <img src="/img/Call.png" alt="Phone" />
+          <span>062 301 8937</span>
+        </div>
+        <div class="contact-item3">
+          <span>2WVP+W9V AH2 ตำบลแม่กา อำเภอเมืองพะเยา พะเยา 56000</span>
+        </div>
+      </div>
+
+      <img src="/img/logo.png" alt="Tong Eiw Cafe" class="logo" />
+    </div>
+  </div>
+
+</body>
+</html>

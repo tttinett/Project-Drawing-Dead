@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+  width: 80px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.contianer {
+  display: flex;
+  width: 100%;
+  padding: 0px 80px;
+  padding-bottom: 80px;
+  
+
+}
+
+/* Background */
+.background {
+  background: url("/img/band.jpg") no-repeat center center;
+  background-size: cover;
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Layout */
+.colum {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+}
+
+/* ผังโต๊ะ */
+.img img {
+  max-width: 500px;
+  border: 2px solid #ccc;
+}
+
+/* กล่องเลือกโต๊ะ */
+.reserve-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.reserve-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #154A26;
+  color: #fff;
+  font-size: 34px;
+  width: 80%;
+  height: 70px;
+  border-radius: 50px;
+}
+
+select {
+  padding: 15px 25px;
+  border-radius: 30px;
+  border: none;
+  font-size: 20px;
+  background-color: #154A26;
+  color: #fff;
+  width: 500px;   /* 👈 ปรับความกว้าง */
+  text-align: center;
+}
+
+
+/* ตัวเลือกไม่ว่าง */
+select option:disabled {
+  color: #ff6666;
+  background-color: #333;
+}
+
+button {
+  background-color: #9B0000;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 40px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c40000;
+}

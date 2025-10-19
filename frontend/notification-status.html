@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tong-Eiw Cafe • การแจ้งเตือน</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/notification-status.css"/>
+  <link rel="icon" type="image/png" href="/img/logo.png" />
+</head>
+<body>
+  <!-- Navbar -->
+ <header class="navbar">
+    <div class="nav-left">
+      <img src="/img/logo.png" alt="Tong-Eiw Logo" class="logo">
+    </div>
+    <div class="nav-right">
+      <div class="profile-dot" aria-hidden="true"></div>
+      <nav class="menu">
+        <a href="/main.html">หน้าหลัก</a>
+        <a href="/notifications.html">แจ้งเตือน</a>
+        <a href="/contact.html">ติดต่อเรา</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- BG -->
+  <div class="bg"></div>
+
+  <!-- Content -->
+  <main class="wrap">
+    <section class="card">
+      <div class="section-title">
+        <button class="title-chip">การแจ้งเตือน</button>
+      </div>
+
+      <h4 class="group-title">รายการจอง</h4>
+
+      <!-- รายการแจ้งเตือน -->
+      <div id="notif-list" class="list">
+        <article class="item">
+          <div class="icon">
+            <!-- กระดิ่งสีแดง -->
+            <svg viewBox="0 0 24 24" width="38" height="38">
+              <path fill="#b31212"
+                d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-5-5.92V4a1 1 0 1 0-2 0v1.08A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z"/>
+            </svg>
+          </div>
+          <div class="text">
+            <div class="title">รอดำเนินการ</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-confirm">ตกลง</button>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" width="38" height="38">
+              <path fill="#b31212"
+                d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-5-5.92V4a1 1 0 1 0-2 0v1.08A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z"/>
+            </svg>
+          </div>
+          <div class="text">
+            <div class="title">รอดำเนินการ</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-confirm">ตกลง</button>
+          </div>
+        </article>
+
+        <article class="item">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" width="38" height="38">
+              <path fill="#b31212"
+                d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-5-5.92V4a1 1 0 1 0-2 0v1.08A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z"/>
+            </svg>
+          </div>
+          <div class="text">
+            <div class="title">รอดำเนินการ</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-confirm">ตกลง</button>
+          </div>
+        </article>
+      </div>
+
+      <!-- กลุ่มถัดไป -->
+      <h4 class="group-title">อัปเดตสถานะโต๊ะ:</h4>
+      <div class="list">
+        <article class="item">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" width="38" height="38">
+              <path fill="#b31212"
+                d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 0 0-5-5.92V4a1 1 0 1 0-2 0v1.08A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z"/>
+            </svg>
+          </div>
+          <div class="text">
+            <div class="title">อัปเดตสถานะโต๊ะ 1 สำเร็จ</div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="/js/api.js"></script>
+<script>
+const wrap = document.getElementById('statusList'); // container
+async function load(){
+  try{
+    const items = await API.list({ status:'pending', sort:'desc' });
+    wrap.innerHTML = items.map(r => `
+      <div class="notif-item">
+        <div>โต๊ะ ${r.table} — ${r.name} — ${r.date}</div>
+        <div class="small text-secondary">${r.id}</div>
+      </div>`).join('') || `<div class="alert alert-light">ไม่มีรายการค้าง</div>`;
+  }catch(e){ wrap.innerHTML = `<div class="alert alert-danger">โหลดข้อมูลไม่สำเร็จ</div>`; }
+}
+document.addEventListener('DOMContentLoaded', load);
+</script>
+</body>
+</html>

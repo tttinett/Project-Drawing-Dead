@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เลือกวันที่</title>
+  <link rel="icon" type="image/png" href="/img/logo.png" />
+  <link rel="stylesheet" href="/css/date.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <img src="/img/logo.png" alt="logo" class="logo" />
+    <ul>
+      <li><a href="/login.html">เข้าสู่ระบบ</a></li>
+      <li><a href="/main.html">หน้าหลัก</a></li>
+      <li><a href="/notifications.html">แจ้งเตือน</a></li>
+      <li><a href="#">ติดต่อเรา</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <img src="/img/band.jpg" alt="bg" class="bg" />
+
+    <!-- ป้ายหัวข้อ -->
+    <div class="select-title">เลือกวันที่</div>
+
+    <!-- กล่องปฏิทิน -->
+    <div class="calendar-box">
+      <div class="calendar-header">
+        <div class="left-header">
+          <h2 id="monthYear"></h2>
+        </div>
+        <div class="right-header">
+          <button id="prevMonth">&lt;</button>
+          <button id="nextMonth">&gt;</button>
+        </div>
+      </div>
+
+      <table class="calendar">
+        <thead>
+          <tr>
+            <th>Mo</th>
+            <th>Tu</th>
+            <th>We</th>
+            <th>Th</th>
+            <th>Fr</th>
+            <th>Sa</th>
+            <th>Su</th>
+          </tr>
+        </thead>
+        <tbody id="calendarBody"></tbody>
+      </table>
+    </div>
+
+    <!-- ปุ่มตกลง -->
+    <button class="btn-confirm" id="confirmBtn">ตกลง</button>
+  </div>
+
+  <script>
+    const monthYear = document.getElementById("monthYear");
+    const calendarBody = document.getElementById("calendarBody");
+    const prevMonth = document.getElementById("prevMonth");
+    const nextMonth = document.getElementById("nextMonth");
+    const confirmBtn = document.getElementById("confirmBtn");
+
+    let today = new Date();
+    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+    let selectedDate = null;
+
+    const months = [
+      "January","February","March","April","May","June",
+      "July","August","September","October","November","December"
+    ];
+
+    function generateCalendar(month, year) {
+      calendarBody.innerHTML = "";
+      monthYear.textContent = `${months[month]} ${year}`;
+      const firstDay = new Date(year, month, 1).getDay();
+      const lastDate = new Date(year, month + 1, 0).getDate();
+      let date = 1;
+
+      for (let i = 0; i < 6; i++) {
+        const row = document.createElement("tr");
+        for (let j = 1; j <= 7; j++) {
+          const cell = document.createElement("td");
+          const monBasedFirst = (firstDay === 0 ? 7 : firstDay);
+          if ((i === 0 && j < monBasedFirst) || date > lastDate) {
+            cell.textContent = "";
+          } else {
+            cell.textContent = date;
+            const thisCellDate = new Date(year, month, date);
+            if (thisCellDate < todayStart) {
+              cell.style.opacity = "0.3";
+              cell.style.pointerEvents = "none";
+            } else {
+              cell.addEventListener("click", () => {
+                document.querySelectorAll(".calendar td").forEach(td => td.classList.remove("active"));
+                cell.classList.add("active");
+                selectedDate = new Date(year, month, date);
+              });
+            }
+            date++;
+          }
+          row.appendChild(cell);
+        }
+        calendarBody.appendChild(row);
+      }
+    }
+
+    prevMonth.addEventListener("click", () => {
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      generateCalendar(currentMonth, currentYear);
+    });
+
+    nextMonth.addEventListener("click", () => {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      generateCalendar(currentMonth, currentYear);
+    });
+
+    confirmBtn.addEventListener("click", () => {
+      if (!selectedDate) {
+        alert("กรุณาเลือกวันที่ก่อน!");
+        return;
+      }
+      const pad = n => String(n).padStart(2, "0");
+      const iso = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}`;
+      localStorage.setItem("reservationDate", iso);
+      window.location.href = `/reserve.html?date=${iso}`;
+    });
+
+    generateCalendar(currentMonth, currentYear);
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>รายละเอียดการจอง | Tasty Bar</title>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root{ --green:#2e7d32; --green-dark:#256628; --red:#a51212; --red-dark:#8f0f0f; }
+    body{ background:#f3f3f3; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+  width: 80px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+   
+    
+    main{padding:5vh 0}
+    .glass-card{background:#fff;border-radius:1.25rem;box-shadow:0 12px 40px rgba(0,0,0,.1);max-width:820px;margin:auto;padding:2rem}
+    .section-head{width:100%;text-align:center;background:#184b1b;color:#fff;border-radius:12px;padding:.6rem;font-weight:700;margin-bottom:1.25rem;}
+    .section-head.red{background:#6f1d1b}
+    .field{white-space:pre-line;font-size:1.06rem}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <div class="navbar">
+    <img src="/img/logo.png" alt="logo" class="logo" />
+    <ul>
+      <li><a href="/login.html">เข้าสู่ระบบ</a></li>
+      <li><a href="/main.html">หน้าหลัก</a></li>
+      <li><a href="/notifications.html">แจ้งเตือน</a></li>
+      <li><a href="/contact.html">ติดต่อเรา</a></li>
+    </ul>
+  </div>
+
+  <!-- BODY -->
+  <main>
+    <div class="glass-card">
+      <div id="head" class="section-head">รายละเอียดการจอง</div>
+      <div id="detail" class="field mb-4">กำลังโหลด…</div>
+
+      <!-- ปุ่มทั้งหมดถูกลบออก -->
+      <div class="text-center mt-3">
+        <a href="/manage.html" class="small text-decoration-none">← กลับไปหน้าค้นหา</a>
+      </div>
+    </div>
+  </main>
+
+<script defer src="/js/api.js"></script>
+<script>
+  const q = new URLSearchParams(location.search);
+  const id = q.get("id");
+  const detail = document.getElementById("detail");
+
+  // ฟังก์ชันลบคำว่า "โต๊ะ" ที่มากับค่าดิบ
+  const tableNumber = (val) => (val ?? '')
+    .toString()
+    .trim()
+    .replace(/^โต๊ะ\s*/i, '');  // ตัดคำว่า "โต๊ะ " ด้านหน้าออก
+
+  document.addEventListener("DOMContentLoaded", async ()=>{
+    try {
+      const r = await API.get(id);
+
+      const dateOnly = r.date?.split('T')[0] ?? r.date ?? '-';
+      const rawTable  = r.table ?? r.table_name ?? '';
+      const tnum      = tableNumber(rawTable);   // <- ได้เป็น "1", "2", ...
+
+      detail.textContent =
+`หมายเลขการจอง: ${r.id ?? '-'}
+โต๊ะ: ${tnum || '-'}
+วันที่: ${dateOnly}
+ชื่อ: ${r.name ?? '-'}
+อีเมล: ${r.email ?? '-'}
+เบอร์: ${r.phone ?? '-'}
+สถานะ: ${API.statusText(r.status)}`;
+    } catch (err) {
+      detail.textContent = "❌ " + err.message;
+      console.error(err);
+    }
+  });
+</script>
+</body>
+</html>

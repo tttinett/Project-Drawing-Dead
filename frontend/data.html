@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>กรอกข้อมูลการจอง</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap">
+  <link rel="icon" type="image/png" href="/img/logo.png" />
+  <link rel="stylesheet" href="/css/manage.css" />
+  <style>
+    body { font-family: "Noto Sans Thai", sans-serif; color:#fff; margin:0; }
+    .navbar { background:#fff; color:#111; display:flex; align-items:center; justify-content:space-between; padding:10px 30px; }
+    .navbar .logo { width:80px; }
+    .navbar ul { list-style:none; display:flex; gap:24px; margin:0; padding:0; }
+    .navbar a { text-decoration:none; color:#111; font-weight:600; }
+
+    .hero { position:relative; min-height:100vh; display:flex; align-items:flex-start; justify-content:center; padding:60px 16px; }
+    .hero::before{
+      content:""; position:absolute; inset:0; background:url("/img/band.jpg") center/cover no-repeat;
+      filter:brightness(.4); z-index:0;
+    }
+
+    .card {
+      position:relative; z-index:1; width:min(720px, 92vw);
+      background:rgba(0,0,0,.6); border-radius:16px; padding:24px 24px 28px;
+      box-shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+
+    .title { margin:0 0 8px; }
+    .subtitle { margin:0 0 18px; opacity:.9; }
+
+    .row { display:flex; gap:16px; flex-wrap:wrap; }
+    .col { flex:1 1 260px; }
+
+    label { display:block; margin:8px 0 6px; font-weight:600; }
+    input, select {
+      width:100%; padding:12px; border-radius:10px; border:none; font-size:16px; color:#111;
+    }
+
+    .pill {
+      display:inline-block; background:#124d2d; color:#fff; padding:6px 14px; border-radius:999px; font-size:14px; margin-left:8px;
+    }
+
+    .actions { margin-top:18px; display:flex; gap:12px; justify-content:flex-end; }
+    .btn { border:0; border-radius:999px; padding:10px 24px; font-size:16px; cursor:pointer; }
+    .btn-primary { background:#124d2d; color:#fff; }
+    .btn-primary:hover { filter:brightness(1.1); }
+    .btn-ghost { background:transparent; color:#fff; outline:2px solid #fff; }
+    .error { margin-top:10px; color:#ffd3d3; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <img src="/img/logo.png" alt="logo" class="logo" />
+    <ul>
+      <li><a href="/login.html">เข้าสู่ระบบ</a></li>
+      <li><a href="/main.html">หน้าหลัก</a></li>
+      <li><a href="/notifications.html">แจ้งเตือน</a></li>
+      <li><a href="#">ติดต่อเรา</a></li>
+    </ul>
+  </div>
+
+  <div class="hero">
+    <div class="card">
+      <h2 class="title">ยืนยันการจอง</h2>
+      <p class="subtitle">
+        โปรดตรวจสอบรายละเอียดก่อนยืนยันการจอง
+        <span id="displayTable" class="pill"></span>
+        <span id="displayDate" class="pill" style="background:#971212"></span>
+      </p>
+
+      <form id="reserveForm" novalidate>
+        <div class="row">
+          <div class="col">
+            <label for="name">ชื่อผู้จอง</label>
+            <input type="text" id="name" placeholder="เช่น ออมสิน" required />
+          </div>
+          <div class="col">
+            <label for="phone">เบอร์โทรศัพท์</label>
+            <input type="tel" id="phone" placeholder="เช่น 0812345678" pattern="^0[0-9]{8,9}$" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label for="email">อีเมล (ถ้ามี)</label>
+            <input type="email" id="email" placeholder="เช่น name@example.com" />
+          </div>
+          <div class="col">
+            <label for="date">วันที่จอง</label>
+            <input type="date" id="date" required />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="backBtn">ย้อนกลับ</button>
+          <button type="submit" class="btn btn-primary" id="confirmBtn">ยืนยันจอง</button>
+        </div>
+        <div id="errorMsg" class="error" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+  <script defer src="/js/api.js"></script>
+
+  <script>
+    // เติมชื่อโต๊ะและวันที่จากหน้าก่อนหน้า
+    document.addEventListener('DOMContentLoaded', () => {
+      const tableLabel = localStorage.getItem('reservationTable');   // เช่น "โต๊ะ 4"
+      const dateSaved  = localStorage.getItem('reservationDate');    // YYYY-MM-DD
+      if (tableLabel) document.getElementById('displayTable').textContent = tableLabel;
+      if (dateSaved)  document.getElementById('displayDate').textContent  = dateSaved;
+      if (dateSaved && document.getElementById('date')) document.getElementById('date').value = dateSaved;
+    });
+
+    const form = document.getElementById('reserveForm');
+    const confirmBtn = document.getElementById('confirmBtn');
+
+    form.addEventListener('submit', handleSubmit);
+
+    function parseTableId() {
+      const savedId = Number(sessionStorage.getItem('selected_table_id'));
+      if (savedId) return savedId;
+      const label = localStorage.getItem('reservationTable') || '';
+      const m = label.match(/\d+/);
+      return m ? Number(m[0]) : NaN;
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      const name  = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const date  = document.getElementById('date').value;
+      const tableId = parseTableId();
+
+      if (!tableId || !name || !date) {
+        alert('กรุณากรอก โต๊ะ/ชื่อ/วันที่ ให้ครบถ้วน');
+        return;
+      }
+
+      try {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'กำลังบันทึก...';
+
+        // ✅ ไม่มีเวลา — ให้ backend ใช้ค่า default
+        const result = await API.create({
+          table_id: tableId,
+          customer_name: name,
+          phone: phone || null,
+          email: email || null,
+          reserve_date: date,
+          duration_min: 120
+        });
+
+        const newId = result?.id || result?.newItem?.id;
+        if (!newId) {
+          alert('บันทึกสำเร็จ แต่ไม่ได้รับหมายเลขการจองกลับมา');
+        } else {
+          localStorage.setItem('lastReservationId', newId);
+          window.location.href = '/booking-notify.html?id=' + encodeURIComponent(newId);
+        }
+      } catch (err) {
+        let msg = err?.message || 'บันทึกไม่สำเร็จ';
+        try {
+          const resp = err.responseJSON ?? (await err.response?.json());
+          if (resp?.message || resp?.error) msg = resp.message || resp.error;
+        } catch {}
+        alert('บันทึกไม่สำเร็จ: ' + msg);
+        console.error(err);
+      } finally {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'ยืนยันจอง';
+      }
+    }
+  </script>
+</body>
+</html>

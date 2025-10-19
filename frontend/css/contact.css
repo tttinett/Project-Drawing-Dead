@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans Thai', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #fff;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+  width: 80px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+
+.contact-section {
+  background-image: url('/img/band.jpg'); /* พื้นหลังของร้านตอนกลางคืน */
+  background-size: cover;
+  background-position: center;
+  padding: 200px 0;
+
+}
+
+.contact-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  margin: 0 auto;
+  width: 80%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.map img {
+  width: 280px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.contact-info {
+  text-align: left;
+}
+
+.contact-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+.contact-item .icon {
+  font-size: 1.4rem;
+}
+
+.address {
+  margin-top: 20px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .map img {
+    width: 80%;
+  }
+}
