@@ -1,5 +1,5 @@
 # Project-drawing
-โปรเจกต์นี้เป็นส่วนหนึ่งของรายวิชา Datebase โดยเป็นเว็บไซต์สำหรับจองโต๊ะร้านอาหาร พัฒนาโดยกลุ่มdrawingจากสาขาวิศวกรรมซอฟต์แวร์ มหาวิทยาลัยพะเยา สำหรับปีการศึกษา 2568
+โปรเจกต์นี้เป็นส่วนหนึ่งของรายวิชา Datebase โดยเป็นเว็บไซต์สำหรับจองโต๊ะร้านเหล้า พัฒนาโดยกลุ่มdrawingจากสาขาวิศวกรรมซอฟต์แวร์ มหาวิทยาลัยพะเยา สำหรับปีการศึกษา 2568
 
 This project is part of the Database course. It is a website for booking tables at pubs, developed by the group "Drawing" from the Software Engineering program, University of Phayao, for the academic year 2025.
 # Completed Functions
